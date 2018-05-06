@@ -21,6 +21,7 @@ ng.module('smart-table')
 
         scope.currentPage = 1;
         scope.pages = [];
+        scope.last = 1;
 
         function redraw () {
           var paginationState = ctrl.tableState().pagination;
@@ -32,10 +33,10 @@ ng.module('smart-table')
           scope.currentPage = Math.floor(paginationState.start / paginationState.number) + 1;
 
           start = Math.max(start, scope.currentPage - Math.abs(Math.floor(scope.stDisplayedPages / 2)));
-          end = start + scope.stDisplayedPages;
+          scope.last = end = start + scope.stDisplayedPages;
 
           if (end > paginationState.numberOfPages) {
-            end = paginationState.numberOfPages + 1;
+            scope.last = end = paginationState.numberOfPages + 1;
             start = Math.max(1, end - scope.stDisplayedPages);
           }
 

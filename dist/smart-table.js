@@ -8,7 +8,11 @@
 ng.module('smart-table', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put('template/smart-table/pagination.html',
         '<nav ng-if="numPages && pages.length >= 2"><ul class="pagination">' +
+        '<li ng-class="{active: 1==currentPage}"><a href="#" ng-click="selectPage(1); $event.preventDefault(); $event.stopPropagation();">First</a></li>' +
+        '<li ng-class="{}"><a href="#" ng-click="selectPage(currentPage - 1); $event.preventDefault(); $event.stopPropagation();">Prev</a></li>' +
         '<li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a href="#" ng-click="selectPage(page); $event.preventDefault(); $event.stopPropagation();">{{page}}</a></li>' +
+        '<li ng-class="{}"><a href="#" ng-click="selectPage(currentPage + 1); $event.preventDefault(); $event.stopPropagation();">Next</a></li>' +
+        '<li ng-class="{active: last==currentPage}"><a href="#" ng-click="selectPage(last); $event.preventDefault(); $event.stopPropagation();">Last</a></li>' +
         '</ul></nav>');
 }]);
 
@@ -476,6 +480,7 @@ ng.module('smart-table')
 
         scope.currentPage = 1;
         scope.pages = [];
+        scope.last = 1;
 
         function redraw () {
           var paginationState = ctrl.tableState().pagination;
@@ -487,10 +492,10 @@ ng.module('smart-table')
           scope.currentPage = Math.floor(paginationState.start / paginationState.number) + 1;
 
           start = Math.max(start, scope.currentPage - Math.abs(Math.floor(scope.stDisplayedPages / 2)));
-          end = start + scope.stDisplayedPages;
+          scope.last = end = start + scope.stDisplayedPages;
 
           if (end > paginationState.numberOfPages) {
-            end = paginationState.numberOfPages + 1;
+            scope.last = end = paginationState.numberOfPages + 1;
             start = Math.max(1, end - scope.stDisplayedPages);
           }
 

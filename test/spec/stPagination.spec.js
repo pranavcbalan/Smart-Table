@@ -139,13 +139,17 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(5);
+      expect(pages.length).toBe(9);
 
-      expect(pages[0].text()).toEqual('2');
-      expect(pages[1].text()).toEqual('3');
-      expect(pages[2].text()).toEqual('4');
-      expect(pages[3].text()).toEqual('5');
-      expect(pages[4].text()).toEqual('6');
+      expect(pages[0].text()).toEqual('First');
+      expect(pages[1].text()).toEqual('Prev');
+      expect(pages[2].text()).toEqual('2');
+      expect(pages[3].text()).toEqual('3');
+      expect(pages[4].text()).toEqual('4');
+      expect(pages[5].text()).toEqual('5');
+      expect(pages[6].text()).toEqual('6');
+      expect(pages[7].text()).toEqual('Next');
+      expect(pages[8].text()).toEqual('Last');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -172,15 +176,19 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(7);
+      expect(pages.length).toBe(11);
 
-      expect(pages[0].text()).toEqual('1');
-      expect(pages[1].text()).toEqual('2');
-      expect(pages[2].text()).toEqual('3');
-      expect(pages[3].text()).toEqual('4');
-      expect(pages[4].text()).toEqual('5');
-      expect(pages[5].text()).toEqual('6');
-      expect(pages[6].text()).toEqual('7');
+      expect(pages[0].text()).toEqual('First');
+      expect(pages[1].text()).toEqual('Prev');
+      expect(pages[2].text()).toEqual('1');
+      expect(pages[3].text()).toEqual('2');
+      expect(pages[4].text()).toEqual('3');
+      expect(pages[5].text()).toEqual('4');
+      expect(pages[6].text()).toEqual('5');
+      expect(pages[7].text()).toEqual('6');
+      expect(pages[8].text()).toEqual('7');
+      expect(pages[9].text()).toEqual('Next');
+      expect(pages[10].text()).toEqual('Last');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -209,16 +217,16 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(8);
+      expect(pages.length).toBe(12);
 
-      expect(pages[0].text()).toEqual('1');
-      expect(pages[1].text()).toEqual('2');
-      expect(pages[2].text()).toEqual('3');
-      expect(pages[3].text()).toEqual('4');
-      expect(pages[4].text()).toEqual('5');
-      expect(pages[5].text()).toEqual('6');
-      expect(pages[6].text()).toEqual('7');
-      expect(pages[7].text()).toEqual('8');
+      expect(pages[2].text()).toEqual('1');
+      expect(pages[3].text()).toEqual('2');
+      expect(pages[4].text()).toEqual('3');
+      expect(pages[5].text()).toEqual('4');
+      expect(pages[6].text()).toEqual('5');
+      expect(pages[7].text()).toEqual('6');
+      expect(pages[8].text()).toEqual('7');
+      expect(pages[9].text()).toEqual('8');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -245,14 +253,14 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(6);
+      expect(pages.length).toBe(10);
 
-      expect(pages[0].text()).toEqual('1');
-      expect(pages[1].text()).toEqual('2');
-      expect(pages[2].text()).toEqual('3');
-      expect(pages[3].text()).toEqual('4');
-      expect(pages[4].text()).toEqual('5');
-      expect(pages[5].text()).toEqual('6');
+      expect(pages[2].text()).toEqual('1');
+      expect(pages[3].text()).toEqual('2');
+      expect(pages[4].text()).toEqual('3');
+      expect(pages[5].text()).toEqual('4');
+      expect(pages[6].text()).toEqual('5');
+      expect(pages[7].text()).toEqual('6');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -279,13 +287,13 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(5);
+      expect(pages.length).toBe(9);
 
-      expect(pages[0].text()).toEqual('8');
-      expect(pages[1].text()).toEqual('9');
-      expect(pages[2].text()).toEqual('10');
-      expect(pages[3].text()).toEqual('11');
-      expect(pages[4].text()).toEqual('12');
+      expect(pages[2].text()).toEqual('8');
+      expect(pages[3].text()).toEqual('9');
+      expect(pages[4].text()).toEqual('10');
+      expect(pages[5].text()).toEqual('11');
+      expect(pages[6].text()).toEqual('12');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -313,20 +321,20 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(5);
+      expect(pages.length).toBe(9);
 
-      expect(pages[0].text()).toEqual('1');
-      expect(pages[1].text()).toEqual('2');
-      expect(pages[2].text()).toEqual('3');
-      expect(pages[3].text()).toEqual('4');
-      expect(pages[4].text()).toEqual('5');
+      expect(pages[2].text()).toEqual('1');
+      expect(pages[3].text()).toEqual('2');
+      expect(pages[4].text()).toEqual('3');
+      expect(pages[5].text()).toEqual('4');
+      expect(pages[6].text()).toEqual('5');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
       });
 
-      expect(active.length).toBe(1);
-      expect(active[0].text()).toEqual('1');
+      expect(active.length).toBe(2);
+      expect(active[1].text()).toEqual('1');
 
     });
 
@@ -347,11 +355,11 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(3);
+      expect(pages.length).toBe(7);
 
-      expect(pages[0].text()).toEqual('1');
-      expect(pages[1].text()).toEqual('2');
-      expect(pages[2].text()).toEqual('3');
+      expect(pages[2].text()).toEqual('1');
+      expect(pages[3].text()).toEqual('2');
+      expect(pages[4].text()).toEqual('3');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -433,13 +441,13 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(5);
+      expect(pages.length).toBe(9);
 
-      expect(pages[0].text()).toEqual('2');
-      expect(pages[1].text()).toEqual('3');
-      expect(pages[2].text()).toEqual('4');
-      expect(pages[3].text()).toEqual('5');
-      expect(pages[4].text()).toEqual('6');
+      expect(pages[2].text()).toEqual('2');
+      expect(pages[3].text()).toEqual('3');
+      expect(pages[4].text()).toEqual('4');
+      expect(pages[5].text()).toEqual('5');
+      expect(pages[6].text()).toEqual('6');
 
       var active = pages.filter(function (value) {
         return hasClass(value[0], 'active');
@@ -448,7 +456,7 @@ describe('stPagination directive', function () {
       expect(active.length).toBe(1);
       expect(active[0].text()).toEqual('4');
 
-      angular.element(pages[4].children()[0]).triggerHandler('click');
+      angular.element(pages[6].children()[0]).triggerHandler('click');
 
       rootScope.$apply();
 
@@ -477,8 +485,8 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(4);
-      angular.element(pages[2].children()[0]).triggerHandler('click');
+      expect(pages.length).toBe(8);
+      angular.element(pages[4].children()[0]).triggerHandler('click');
 
       rootScope.$apply();
 
@@ -506,8 +514,8 @@ describe('stPagination directive', function () {
 
       var pages = getPages();
 
-      expect(pages.length).toBe(4);
-      angular.element(pages[2].children()[0]).triggerHandler('click');
+      expect(pages.length).toBe(8);
+      angular.element(pages[4].children()[0]).triggerHandler('click');
 
       rootScope.$apply();
 
@@ -520,7 +528,7 @@ describe('stPagination directive', function () {
       rootScope.$apply();
       pages = getPages();
 
-      expect(pages.length).toBe(5);
+      expect(pages.length).toBe(9);
       expect(rootScope.onPageChange.calls.count()).toBe(1);
     });
 
