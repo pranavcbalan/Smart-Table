@@ -5,7 +5,7 @@ ng.module('smart-table', []).run(['$templateCache', function ($templateCache) {
         '<li ng-class="{}"><a href="#" ng-click="selectPage(currentPage - 1); $event.preventDefault(); $event.stopPropagation();">Prev</a></li>' +
         '<li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a href="#" ng-click="selectPage(page); $event.preventDefault(); $event.stopPropagation();">{{page}}</a></li>' +
         '<li ng-class="{}"><a href="#" ng-click="selectPage(currentPage + 1); $event.preventDefault(); $event.stopPropagation();">Next</a></li>' +
-        '<li ng-class="{active: last-1==currentPage}"><a href="#" ng-click="selectPage(last-1); $event.preventDefault(); $event.stopPropagation();">Last</a></li>' +
+        '<li ng-class="{active: numPages == currentPage}"><a href="#" ng-click="selectPage(numPages); $event.preventDefault(); $event.stopPropagation();">Last</a></li>' +
         '</ul></nav>');
 }]);
 

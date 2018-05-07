@@ -12,7 +12,7 @@ ng.module('smart-table', []).run(['$templateCache', function ($templateCache) {
         '<li ng-class="{}"><a href="#" ng-click="selectPage(currentPage - 1); $event.preventDefault(); $event.stopPropagation();">Prev</a></li>' +
         '<li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a href="#" ng-click="selectPage(page); $event.preventDefault(); $event.stopPropagation();">{{page}}</a></li>' +
         '<li ng-class="{}"><a href="#" ng-click="selectPage(currentPage + 1); $event.preventDefault(); $event.stopPropagation();">Next</a></li>' +
-        '<li ng-class="{active: last-1==currentPage}"><a href="#" ng-click="selectPage(last-1); $event.preventDefault(); $event.stopPropagation();">Last</a></li>' +
+        '<li ng-class="{active: numPages == currentPage}"><a href="#" ng-click="selectPage(numPages); $event.preventDefault(); $event.stopPropagation();">Last</a></li>' +
         '</ul></nav>');
 }]);
 
@@ -458,86 +458,87 @@ ng.module('smart-table')
   }]);
 
 ng.module('smart-table')
-  .directive('stPagination', ['stConfig', function (stConfig) {
-    return {
-      restrict: 'EA',
-      require: '^stTable',
-      scope: {
-        stItemsByPage: '=?',
-        stDisplayedPages: '=?',
-        stPageChange: '&'
-      },
-      templateUrl: function (element, attrs) {
-        if (attrs.stTemplate) {
-          return attrs.stTemplate;
-        }
-        return stConfig.pagination.template;
-      },
-      link: function (scope, element, attrs, ctrl) {
+    .directive('stPagination', ['stConfig', function (stConfig) {
+        return {
+            restrict: 'EA',
+            require: '^stTable',
+            scope: {
+                stItemsByPage: '=?',
+                stDisplayedPages: '=?',
+                stPageChange: '&'
+            },
+            templateUrl: function (element, attrs) {
+                if (attrs.stTemplate) {
+                    return attrs.stTemplate;
+                }
+                return stConfig.pagination.template;
+            },
+            link: function (scope, element, attrs, ctrl) {
 
-        scope.stItemsByPage = scope.stItemsByPage ? +(scope.stItemsByPage) : stConfig.pagination.itemsByPage;
-        scope.stDisplayedPages = scope.stDisplayedPages ? +(scope.stDisplayedPages) : stConfig.pagination.displayedPages;
+                scope.stItemsByPage = scope.stItemsByPage ? +(scope.stItemsByPage) : stConfig.pagination.itemsByPage;
+                scope.stDisplayedPages = scope.stDisplayedPages ? +(scope.stDisplayedPages) : stConfig.pagination.displayedPages;
 
-        scope.currentPage = 1;
-        scope.pages = [];
-        scope.last = 1;
+                scope.currentPage = 1;
+                scope.pages = [];
 
-        function redraw () {
-          var paginationState = ctrl.tableState().pagination;
-          var start = 1;
-          var end;
-          var i;
-          var prevPage = scope.currentPage;
-          scope.totalItemCount = paginationState.totalItemCount;
-          scope.currentPage = Math.floor(paginationState.start / paginationState.number) + 1;
+                function redraw() {
+                    var paginationState = ctrl.tableState().pagination;
+                    var start = 1;
+                    var end;
+                    var i;
+                    var prevPage = scope.currentPage;
+                    scope.totalItemCount = paginationState.totalItemCount;
+                    scope.currentPage = Math.floor(paginationState.start / paginationState.number) + 1;
 
-          start = Math.max(start, scope.currentPage - Math.abs(Math.floor(scope.stDisplayedPages / 2)));
-          scope.last = end = start + scope.stDisplayedPages;
+                    Math.ceil(scope.totalItemCount / scope.stItemsByPage);
 
-          if (end > paginationState.numberOfPages) {
-            scope.last = end = paginationState.numberOfPages + 1;
-            start = Math.max(1, end - scope.stDisplayedPages);
-          }
+                    start = Math.max(start, scope.currentPage - Math.abs(Math.floor(scope.stDisplayedPages / 2)));
+                    end = start + scope.stDisplayedPages;
 
-          scope.pages = [];
-          scope.numPages = paginationState.numberOfPages;
+                    if (end > paginationState.numberOfPages) {
+                        end = paginationState.numberOfPages + 1;
+                        start = Math.max(1, end - scope.stDisplayedPages);
+                    }
 
-          for (i = start; i < end; i++) {
-            scope.pages.push(i);
-          }
+                    scope.pages = [];
+                    scope.numPages = paginationState.numberOfPages;
 
-          if (prevPage !== scope.currentPage) {
-            scope.stPageChange({newPage: scope.currentPage});
-          }
-        }
+                    for (i = start; i < end; i++) {
+                        scope.pages.push(i);
+                    }
 
-        //table state --> view
-        scope.$watch(function () {
-          return ctrl.tableState().pagination;
-        }, redraw, true);
+                    if (prevPage !== scope.currentPage) {
+                        scope.stPageChange({newPage: scope.currentPage});
+                    }
+                }
 
-        //scope --> table state  (--> view)
-        scope.$watch('stItemsByPage', function (newValue, oldValue) {
-          if (newValue !== oldValue) {
-            scope.selectPage(1);
-          }
-        });
+                //table state --> view
+                scope.$watch(function () {
+                    return ctrl.tableState().pagination;
+                }, redraw, true);
 
-        scope.$watch('stDisplayedPages', redraw);
+                //scope --> table state  (--> view)
+                scope.$watch('stItemsByPage', function (newValue, oldValue) {
+                    if (newValue !== oldValue) {
+                        scope.selectPage(1);
+                    }
+                });
 
-        //view -> table state
-        scope.selectPage = function (page) {
-          if (page > 0 && page <= scope.numPages) {
-            ctrl.slice((page - 1) * scope.stItemsByPage, scope.stItemsByPage);
-          }
+                scope.$watch('stDisplayedPages', redraw);
+
+                //view -> table state
+                scope.selectPage = function (page) {
+                    if (page > 0 && page <= scope.numPages) {
+                        ctrl.slice((page - 1) * scope.stItemsByPage, scope.stItemsByPage);
+                    }
+                };
+
+                if (!ctrl.tableState().pagination.number) {
+                    ctrl.slice(0, scope.stItemsByPage);
+                }
+            }
         };
-
-        if (!ctrl.tableState().pagination.number) {
-          ctrl.slice(0, scope.stItemsByPage);
-        }
-      }
-    };
-  }]);
+    }]);
 
 ng.module('smart-table')
   .directive('stPipe', ['stConfig', '$timeout', function (config, $timeout) {
